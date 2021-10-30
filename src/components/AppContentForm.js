@@ -79,7 +79,8 @@ const AppContentForm = () => {
                     <Grid item xs={12}>
                         <TextField value={editedOffer.type}
                                    onChange={handleChangeForm("type")}
-                                   className={classes.FormStretchField} select
+                                   className={classes.FormStretchField}
+                                   select
                                    label='Car Body/Type' size={'small'} variant="filled">
                             <MenuItem value={'SUV'}>SUV</MenuItem>
                             <MenuItem value={'CABRIO'}>Cabrio</MenuItem>
