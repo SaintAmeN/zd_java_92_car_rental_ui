@@ -3,6 +3,7 @@ import classes from './AppContentForm.module.css';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {Button, Grid, MenuItem, Select, TextField} from "@material-ui/core";
 import {useState} from "react";
+import axios from 'axios';
 
 // Oferta Car Rental
 //  - id
@@ -18,7 +19,7 @@ const EMPTY_NEW_OFFER = {
     'make': '',
     'model': '',
     'economy': 5.0,
-    'body': 'SUV',
+    'type': 'SUV',
     'price': 100.0
 }
 
@@ -32,6 +33,19 @@ const AppContentForm = () => {
 
     const handleClearForm = () => {
         setEditedOffer({...EMPTY_NEW_OFFER})
+    }
+
+    const handleSubmit = () => {
+        // wysłanie obiektu na serwer
+        console.log("Wysyłamy:" + JSON.stringify(editedOffer))
+
+        axios.post('http://localhost:8080/offers', editedOffer)
+            .then((data)=>{
+                console.log("Odpowiedź sukces: "+ JSON.stringify(data));
+            })
+            .catch((err) => {
+                console.log("Odpowiedź failed: "+ JSON.stringify(err));
+            })
     }
 
     return (
@@ -63,8 +77,8 @@ const AppContentForm = () => {
                                    label={'Economy Level'} size={'small'} variant="filled"/>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField value={editedOffer.body}
-                                   onChange={handleChangeForm("body")}
+                        <TextField value={editedOffer.type}
+                                   onChange={handleChangeForm("type")}
                                    className={classes.FormStretchField} select
                                    label='Car Body/Type' size={'small'} variant="filled">
                             <MenuItem value={'SUV'}>SUV</MenuItem>
@@ -83,12 +97,12 @@ const AppContentForm = () => {
                                    }}
                                    label={'Price [per hour]'} size={'small'} variant="filled"/>
                     </Grid>
-                    <Grid xs={1}/>
-                    <Grid container xs={10}>
+                    <Grid item xs={1}/>
+                    <Grid container item xs={10}>
                         <Grid item xs={6}>
                             <Button className={classes.FormStretchField}
                                     size={'small'} variant="contained"
-                                    startIcon={<DeleteIcon/>} color="error"
+                                    startIcon={<DeleteIcon/>}
                                     onClick={handleClearForm}>
                                 Reset
                             </Button>
@@ -96,7 +110,7 @@ const AppContentForm = () => {
                         <Grid item xs={6}>
                             <Button className={classes.FormStretchField}
                                     size={'small'} variant="contained"
-                                    color="success">
+                                    onClick={handleSubmit}>
                                 Submit
                             </Button>
                         </Grid>
