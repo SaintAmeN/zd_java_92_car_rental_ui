@@ -1,29 +1,21 @@
 import classes from "./AppHeader.module.css";
 import {Link} from 'react-router-dom';
-
-import Storage from '@material-ui/icons/Storage'
-import AddComment from '@material-ui/icons/AddComment'
 import logo from "../logo.svg";
 
 const HEADER_BUTTONS = [
-    {
-        name: 'Form', /* Link do formularza */
-        href: '/form',
-        icon: (<AddComment fontSize={"small"}/>),
-    },
-    {
-        name: 'Database', /* Link do tablicy z listą rekordów/danych */
-        href: '/database',
-        icon: (<Storage fontSize={"small"}/>),
-    },
     {
         name: 'Home',
         href: '/',
         icon: (<></>),  /* Brak ikony */
     },
+    {
+        name: 'Auth',
+        href: '/auth',
+        icon: (<></>),  /* Brak ikony */
+    },
 ]
 
-const AppHeader = () => {
+const AppHeaderLoggedOut = () => {
 
     const mapToHeaderButton = (buttonInfo) => {
         return (
@@ -49,4 +41,4 @@ const AppHeader = () => {
     );
 }
 
-export default AppHeader;
+export default AppHeaderLoggedOut;

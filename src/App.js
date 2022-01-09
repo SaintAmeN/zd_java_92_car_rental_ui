@@ -1,35 +1,37 @@
 import classes from './App.module.css';
-import AppHeader from "./components/AppHeader";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route
-} from "react-router-dom";
-import AppContentHome from "./components/AppContentHome";
-import AppContentDatabase from "./components/AppContentDatabase";
-import AppContentForm from "./components/AppContentForm";
+import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import * as actions from './store/actions/index'
+import ContentLoggedIn from "./components/auth/ContentLoggedIn";
+import ContentLoggedOut from "./components/auth/ContentLoggedOut";
 
-function App() {
-    return (
-        <div className={classes.App}>
-            <Router>
-                <AppHeader/>
-                <div className={classes.AppContent}>
-                    <Switch>
-                        <Route path={'/form'}>
-                            <AppContentForm/>
-                        </Route>
-                        <Route path={'/database'}>
-                            <AppContentDatabase/>
-                        </Route>
-                        <Route path={'/'}>
-                            <AppContentHome/>
-                        </Route>
-                    </Switch>
-                </div>
-            </Router>
-        </div>
-    );
+class App extends Component {
+    componentDidMount() {
+        this.props.checkAuthState();
+    }
+
+    render() {
+        return (
+            <div className={classes.App}>
+                {this.props.isAuthenticated ? (<ContentLoggedIn/>) : (<ContentLoggedOut/>)}
+            </div>
+        );
+    }
 }
 
-export default App;
+const mapStateToProps = state => {
+        return {
+            isAuthenticated: state.auth.token !== null
+        };
+    }
+;
+
+const mapDispatchToProps = dispatch => {
+        return {
+            checkAuthState: () => dispatch(actions.checkAuthState())
+        }
+    }
+;
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
