@@ -3,7 +3,7 @@ import classes from './AppContentForm.module.css';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {Button, Grid, MenuItem, Select, TextField} from "@material-ui/core";
 import {useState} from "react";
-import axios from 'axios';
+import instance from "../axios/axios";
 
 // Oferta Car Rental
 //  - id
@@ -39,7 +39,7 @@ const AppContentForm = () => {
         // wysłanie obiektu na serwer
         console.log("Wysyłamy:" + JSON.stringify(editedOffer))
 
-        axios.post('http://localhost:8080/offers', editedOffer)
+        instance.post('/offers', editedOffer)
             .then((data)=>{
                 console.log("Odpowiedź sukces: "+ JSON.stringify(data));
             })

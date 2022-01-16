@@ -10,6 +10,8 @@ const updateObject = (oldObject, updatedProperties) => {
 const initialState = {
     token: null,
     username: null,
+    id: null,
+    admin: null,
     error: null,
     loading: false,
     authRedirectPath: '/auth'
@@ -30,11 +32,13 @@ const parseJwt = (token) => {
 };
 
 const authSuccess = (state, action) => {
-    console.log(parseJwt(action.token));
+    console.log(action);
 
     return updateObject(state, {
         token: action.token,
         username: action.username,
+        id: action.id,
+        admin: action.admin,
         error: null,
         loading: false
     });

@@ -3,6 +3,7 @@ import classes from './AppContentDatabase.module.css';
 import {useEffect, useState} from "react";
 import {DataGrid} from "@mui/x-data-grid";
 import axios from "axios";
+import instance from "../axios/axios";
 
 const EMPTY_OFFERS_LIST = [{
     'id': 1,
@@ -30,7 +31,7 @@ const AppContentDatabase = () => {
     }, [])
 
     const pullRecordsFromDatabaseServer = () => {
-        axios.get("http://localhost:8080/offers")
+        instance.get("/offers")
             .then((data) => {
                 // data ma pole data
                 console.log("Otrzymaliśmy sukces odpowiedź!")
@@ -44,7 +45,7 @@ const AppContentDatabase = () => {
     }
 
     const handleRemoveRecord = (row) => {
-        axios.delete("http://localhost:8080/offers/" + row.id)
+        instance.delete("/offers/" + row.id)
             .then((data) => {
                 console.log("Otrzymaliśmy sukces odpowiedź!");
                 pullRecordsFromDatabaseServer();
